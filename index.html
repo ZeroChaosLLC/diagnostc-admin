@@ -14,15 +14,12 @@
 
     :root {
       --black: #0a0a08;
-      --off-black: #111110;
       --charcoal: #1c1c1a;
       --dark-mid: #2a2a27;
       --muted: #6b6b65;
       --faint: #9a9a92;
       --white: #f4f4ee;
       --amber: #c8832a;
-      --success: #4ade80;
-      --error: #ff6b6b;
     }
 
     body {
@@ -39,9 +36,6 @@
     }
 
     .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       margin-bottom: 40px;
       padding-bottom: 20px;
       border-bottom: 1px solid var(--dark-mid);
@@ -52,60 +46,6 @@
       font-size: 32px;
       letter-spacing: 2px;
       text-transform: uppercase;
-    }
-
-    .logout-btn {
-      padding: 10px 20px;
-      background-color: var(--dark-mid);
-      color: var(--white);
-      border: none;
-      border-radius: 2px;
-      cursor: pointer;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.2s ease;
-    }
-
-    .logout-btn:hover {
-      background-color: var(--amber);
-      color: var(--black);
-    }
-
-    .controls {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-    }
-
-    .filter-group {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .filter-group label {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--faint);
-    }
-
-    select, input[type="text"] {
-      padding: 8px 12px;
-      background-color: var(--dark-mid);
-      border: 1px solid var(--muted);
-      border-radius: 2px;
-      color: var(--white);
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      min-width: 150px;
-    }
-
-    select:focus, input[type="text"]:focus {
-      outline: none;
-      border-color: var(--amber);
     }
 
     .stats {
@@ -131,15 +71,41 @@
     }
 
     .stat-number {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: bold;
       color: var(--amber);
+    }
+
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      background-color: var(--dark-mid);
+      border: 1px solid var(--muted);
+      border-radius: 2px;
+      color: var(--white);
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .filter-btn.active {
+      background-color: var(--amber);
+      color: var(--black);
+      border-color: var(--amber);
     }
 
     .table-container {
       background-color: var(--dark-mid);
       border-radius: 4px;
       overflow-x: auto;
+      margin-top: 20px;
     }
 
     table {
@@ -149,18 +115,18 @@
 
     th {
       background-color: var(--charcoal);
-      padding: 16px;
+      padding: 12px;
       text-align: left;
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--faint);
-      border-bottom: 2px solid var(--muted);
+      border-bottom: 1px solid var(--muted);
       font-weight: 600;
     }
 
     td {
-      padding: 16px;
+      padding: 12px;
       border-bottom: 1px solid var(--charcoal);
       font-size: 13px;
     }
@@ -169,73 +135,22 @@
       background-color: rgba(200, 131, 42, 0.05);
     }
 
-    .email-cell {
-      color: var(--amber);
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .email-cell:hover {
-      text-decoration: underline;
-    }
-
-    .category-badge {
-      display: inline-block;
-      padding: 4px 8px;
+    .button {
+      padding: 8px 16px;
+      background-color: var(--amber);
+      color: var(--black);
+      border: none;
       border-radius: 2px;
+      cursor: pointer;
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       font-weight: 600;
-    }
-
-    .category-signal {
-      background-color: rgba(200, 131, 42, 0.2);
-      color: var(--amber);
-    }
-
-    .category-map {
-      background-color: rgba(100, 200, 100, 0.2);
-      color: var(--success);
-    }
-
-    .category-engine {
-      background-color: rgba(100, 150, 200, 0.2);
-      color: #64b5f6;
-    }
-
-    .status-select {
-      padding: 6px 10px;
-      background-color: var(--black);
-      border: 1px solid var(--muted);
-      border-radius: 2px;
-      color: var(--white);
       font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      cursor: pointer;
     }
 
-    .status-new {
-      color: var(--amber);
-      font-weight: 600;
-    }
-
-    .status-contacted {
-      color: #64b5f6;
-    }
-
-    .status-scheduled {
-      color: var(--success);
-    }
-
-    .status-engaged {
-      color: var(--muted);
-    }
-
-    .notes-cell {
-      max-width: 200px;
-      color: var(--faint);
-      font-size: 12px;
+    .button:hover {
+      opacity: 0.9;
     }
 
     .modal {
@@ -245,8 +160,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      z-index: 1000;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 100;
       align-items: center;
       justify-content: center;
     }
@@ -257,281 +172,177 @@
 
     .modal-content {
       background-color: var(--dark-mid);
-      padding: 40px;
+      padding: 32px;
       border-radius: 4px;
-      max-width: 600px;
+      max-width: 500px;
       width: 90%;
-      border: 1px solid var(--muted);
     }
 
-    .modal-header {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 24px;
-      letter-spacing: 2px;
+    .modal h3 {
       margin-bottom: 20px;
-      text-transform: uppercase;
+      color: var(--amber);
     }
 
-    .modal-field {
+    .form-group {
       margin-bottom: 16px;
     }
 
-    .modal-field label {
+    .form-group label {
       display: block;
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 1px;
       color: var(--faint);
       margin-bottom: 6px;
     }
 
-    .modal-field input,
-    .modal-field textarea,
-    .modal-field select {
+    .form-group input,
+    .form-group select {
       width: 100%;
       padding: 10px;
-      background-color: var(--black);
+      background-color: var(--charcoal);
       border: 1px solid var(--muted);
       border-radius: 2px;
       color: var(--white);
       font-family: 'DM Mono', monospace;
-      font-size: 13px;
+      font-size: 12px;
     }
 
-    .modal-field textarea {
-      resize: vertical;
-      min-height: 100px;
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--amber);
     }
 
     .modal-buttons {
       display: flex;
-      gap: 10px;
-      margin-top: 20px;
+      gap: 12px;
+      margin-top: 24px;
     }
 
-    .btn {
+    .modal-buttons button {
       flex: 1;
-      padding: 12px 16px;
-      border: none;
-      border-radius: 2px;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
-      font-family: 'DM Mono', monospace;
-      transition: all 0.2s ease;
     }
 
-    .btn-save {
-      background-color: var(--amber);
-      color: var(--black);
-      font-weight: 600;
-    }
-
-    .btn-save:hover {
-      opacity: 0.9;
-    }
-
-    .btn-cancel {
+    .modal-buttons .cancel {
       background-color: var(--charcoal);
       color: var(--white);
     }
 
-    .btn-cancel:hover {
-      background-color: var(--muted);
-    }
-
-    .message {
-      padding: 12px 16px;
-      border-radius: 2px;
-      margin-bottom: 20px;
-      font-size: 13px;
-    }
-
-    .message.success {
-      background-color: rgba(74, 222, 128, 0.2);
-      color: var(--success);
-      border-left: 3px solid var(--success);
-    }
-
-    .message.error {
-      background-color: rgba(255, 107, 107, 0.2);
-      color: var(--error);
-      border-left: 3px solid var(--error);
-    }
-
-    .empty-state {
+    .loading {
       text-align: center;
-      padding: 60px 20px;
-    }
-
-    .empty-state h3 {
-      font-size: 18px;
-      margin-bottom: 8px;
+      padding: 40px;
       color: var(--faint);
-    }
-
-    .empty-state p {
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    #messageContainer {
-      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
 
 <div class="dashboard">
-  <div id="messageContainer"></div>
-
   <div class="header">
     <h1>Diagnostic Submissions</h1>
-    <button class="logout-btn" id="logoutBtn">Sign Out</button>
   </div>
 
-  <div class="controls">
-    <div class="filter-group">
-      <label>Filter by Status:</label>
-      <select id="statusFilter">
-        <option value="">All Statuses</option>
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-label">Total Submissions</div>
+      <div class="stat-number" id="totalCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">New Leads</div>
+      <div class="stat-number" id="newCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Contacted</div>
+      <div class="stat-number" id="contactedCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Scheduled</div>
+      <div class="stat-number" id="scheduledCount">0</div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterByStatus('')">All</button>
+    <button class="filter-btn" onclick="filterByStatus('new')">New</button>
+    <button class="filter-btn" onclick="filterByStatus('contacted')">Contacted</button>
+    <button class="filter-btn" onclick="filterByStatus('scheduled')">Scheduled</button>
+  </div>
+
+  <div id="loading" class="loading">Loading submissions...</div>
+
+  <div id="tableContainer" class="table-container" style="display: none;">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Company</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="submissionsTable"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <h3>Edit Submission</h3>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" id="editName">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="editEmail">
+    </div>
+    <div class="form-group">
+      <label>Company</label>
+      <input type="text" id="editCompany">
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <select id="editStatus">
         <option value="new">New</option>
         <option value="contacted">Contacted</option>
         <option value="scheduled">Scheduled</option>
         <option value="engaged">Engaged</option>
       </select>
     </div>
-    <div class="filter-group">
-      <label>Filter by Category:</label>
-      <select id="categoryFilter">
-        <option value="">All Categories</option>
-        <option value="signal">Signal (Too Much Noise)</option>
-        <option value="map">Map (Wrong Direction)</option>
-        <option value="engine">Engine (You Are the Bottleneck)</option>
-      </select>
+    <div class="form-group">
+      <label>Notes</label>
+      <input type="text" id="editNotes">
     </div>
-    <div class="filter-group">
-      <input type="text" id="searchInput" placeholder="Search email or company...">
+    <div class="modal-buttons">
+      <button class="button cancel" onclick="closeModal()">Cancel</button>
+      <button class="button" onclick="saveEdit()">Save</button>
     </div>
-  </div>
-
-  <div class="stats">
-    <div class="stat-card">
-      <div class="stat-label">Total Submissions</div>
-      <div class="stat-number" id="statTotal">0</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">New Leads</div>
-      <div class="stat-number" id="statNew">0</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Contacted</div>
-      <div class="stat-number" id="statContacted">0</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Scheduled</div>
-      <div class="stat-number" id="statScheduled">0</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Engaged</div>
-      <div class="stat-number" id="statEngaged">0</div>
-    </div>
-  </div>
-
-  <div class="table-container">
-    <table id="submissionsTable">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Email</th>
-          <th>Name</th>
-          <th>Company</th>
-          <th>Category</th>
-          <th>Score</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody">
-      </tbody>
-    </table>
-    <div id="emptyState" class="empty-state" style="display: none;">
-      <h3>No submissions yet</h3>
-      <p>Diagnostic submissions will appear here</p>
-    </div>
-  </div>
-</div>
-
-<!-- Edit Modal -->
-<div class="modal" id="editModal">
-  <div class="modal-content">
-    <div class="modal-header">Edit Submission</div>
-    <form id="editForm">
-      <div class="modal-field">
-        <label>Email</label>
-        <input type="email" id="editEmail" disabled>
-      </div>
-      <div class="modal-field">
-        <label>Name</label>
-        <input type="text" id="editName">
-      </div>
-      <div class="modal-field">
-        <label>Company</label>
-        <input type="text" id="editCompany">
-      </div>
-      <div class="modal-field">
-        <label>Phone</label>
-        <input type="text" id="editPhone">
-      </div>
-      <div class="modal-field">
-        <label>Status</label>
-        <select id="editStatus">
-          <option value="new">New</option>
-          <option value="contacted">Contacted</option>
-          <option value="scheduled">Scheduled</option>
-          <option value="engaged">Engaged</option>
-        </select>
-      </div>
-      <div class="modal-field">
-        <label>Notes</label>
-        <textarea id="editNotes" placeholder="Internal notes..."></textarea>
-      </div>
-      <div class="modal-buttons">
-        <button type="button" class="btn btn-cancel" id="cancelBtn">Cancel</button>
-        <button type="submit" class="btn btn-save">Save Changes</button>
-      </div>
-    </form>
   </div>
 </div>
 
 <script>
-  // Supabase config
   const SUPABASE_URL = 'https://qebtjrryudnifxalznxw.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdWJhYmFzZSIsInJlZiI6InFlYnRqcnJ5dWRuaWZ4YWx6bnh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMDk0MTQsImV4cCI6MjA5NTU4NTQxNH0.wH-z4vqdejwhYNBPCeFaqRI_N5zZ5u6MNL0CNw1TTb4';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFlYnRqcnJ5dWRuaWZ4YWx6bnh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMDk0MTQsImV4cCI6MjA5NTU4NTQxNH0.wH-z4vqdejwhYNBPCeFaqRI_N5zZ5u6MNL0CNw1TTb4';
 
+  let supabase = null;
   let allSubmissions = [];
+  let currentFilter = '';
   let currentEditId = null;
-  let supabaseClient = null;
 
-  // Initialize Supabase once
   function initSupabase() {
-    if (!supabaseClient && window.supabase) {
+    if (!supabase) {
       const { createClient } = window.supabase;
-      supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
     }
-    return supabaseClient;
+    return supabase;
   }
 
-  // Load submissions
   async function loadSubmissions() {
     try {
       const client = initSupabase();
-      if (!client) {
-        showMessage('Supabase not loaded', 'error');
-        return;
-      }
-
       const { data, error } = await client
         .from('diagnostic_submissions')
         .select('*')
@@ -540,174 +351,92 @@
       if (error) throw error;
 
       allSubmissions = data || [];
-      renderTable();
       updateStats();
+      render();
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('tableContainer').style.display = 'block';
     } catch (err) {
-      showMessage('Error loading submissions: ' + err.message, 'error');
+      document.getElementById('loading').innerHTML = `<strong>Error:</strong> ${err.message}`;
     }
   }
 
-  // Render table
-  function renderTable() {
-    const statusFilter = document.getElementById('statusFilter').value;
-    const categoryFilter = document.getElementById('categoryFilter').value;
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  function updateStats() {
+    const total = allSubmissions.length;
+    const newCount = allSubmissions.filter(s => s.status === 'new').length;
+    const contacted = allSubmissions.filter(s => s.status === 'contacted').length;
+    const scheduled = allSubmissions.filter(s => s.status === 'scheduled').length;
 
-    let filtered = allSubmissions.filter(sub => {
-      const matchStatus = !statusFilter || sub.status === statusFilter;
-      const matchCategory = !categoryFilter || sub.category === categoryFilter;
-      const matchSearch = !searchTerm || 
-        sub.email.toLowerCase().includes(searchTerm) || 
-        (sub.company && sub.company.toLowerCase().includes(searchTerm)) ||
-        (sub.name && sub.name.toLowerCase().includes(searchTerm));
-      return matchStatus && matchCategory && matchSearch;
-    });
+    document.getElementById('totalCount').textContent = total;
+    document.getElementById('newCount').textContent = newCount;
+    document.getElementById('contactedCount').textContent = contacted;
+    document.getElementById('scheduledCount').textContent = scheduled;
+  }
 
-    const tbody = document.getElementById('tableBody');
-    const emptyState = document.getElementById('emptyState');
+  function filterByStatus(status) {
+    currentFilter = status;
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    render();
+  }
 
-    if (filtered.length === 0) {
-      tbody.innerHTML = '';
-      emptyState.style.display = 'block';
-      return;
-    }
+  function render() {
+    const filtered = currentFilter
+      ? allSubmissions.filter(s => s.status === currentFilter)
+      : allSubmissions;
 
-    emptyState.style.display = 'none';
-    tbody.innerHTML = filtered.map(sub => `
+    const rows = filtered.map(s => `
       <tr>
-        <td>${new Date(sub.created_at).toLocaleDateString()}</td>
-        <td><span class="email-cell" onclick="copyEmail('${sub.email}')">${sub.email}</span></td>
-        <td>${sub.name || '—'}</td>
-        <td>${sub.company || '—'}</td>
-        <td>
-          <span class="category-badge category-${sub.category}">
-            ${sub.category === 'signal' ? 'Signal' : sub.category === 'map' ? 'Map' : 'Engine'}
-          </span>
-        </td>
-        <td><span class="percentage-cell">${sub.percentage}%</span></td>
-        <td><span class="status-${sub.status}">${sub.status}</span></td>
-        <td><button class="btn btn-save" onclick="editSubmission('${sub.id}')">Edit</button></td>
+        <td>${s.name || '—'}</td>
+        <td>${s.email}</td>
+        <td>${s.company || '—'}</td>
+        <td>${s.category || '—'}</td>
+        <td>${s.status}</td>
+        <td>${new Date(s.created_at).toLocaleDateString()}</td>
+        <td><button class="button" onclick="openEdit('${s.id}', '${s.name || ''}', '${s.email}', '${s.company || ''}', '${s.status}', '${s.notes || ''}')">Edit</button></td>
       </tr>
     `).join('');
+
+    document.getElementById('submissionsTable').innerHTML = rows;
   }
 
-  // Copy email to clipboard
-  function copyEmail(email) {
-    navigator.clipboard.writeText(email).then(() => {
-      showMessage('Email copied to clipboard', 'success');
-    });
-  }
-
-  // Edit submission
-  async function editSubmission(id) {
-    const sub = allSubmissions.find(s => s.id === id);
-    if (!sub) return;
-
+  function openEdit(id, name, email, company, status, notes) {
     currentEditId = id;
-    document.getElementById('editEmail').value = sub.email;
-    document.getElementById('editName').value = sub.name || '';
-    document.getElementById('editCompany').value = sub.company || '';
-    document.getElementById('editPhone').value = sub.phone || '';
-    document.getElementById('editStatus').value = sub.status;
-    document.getElementById('editNotes').value = sub.notes || '';
-
+    document.getElementById('editName').value = name;
+    document.getElementById('editEmail').value = email;
+    document.getElementById('editCompany').value = company;
+    document.getElementById('editStatus').value = status;
+    document.getElementById('editNotes').value = notes;
     document.getElementById('editModal').classList.add('active');
   }
 
-  // Save changes
-  document.getElementById('editForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+  function closeModal() {
+    document.getElementById('editModal').classList.remove('active');
+  }
 
-    const updates = {
-      name: document.getElementById('editName').value || null,
-      company: document.getElementById('editCompany').value || null,
-      phone: document.getElementById('editPhone').value || null,
-      status: document.getElementById('editStatus').value,
-      notes: document.getElementById('editNotes').value || null,
-      last_updated: new Date().toISOString(),
-      contacted_at: document.getElementById('editStatus').value !== 'new' ? new Date().toISOString() : null
-    };
-
+  async function saveEdit() {
     try {
       const client = initSupabase();
       const { error } = await client
         .from('diagnostic_submissions')
-        .update(updates)
+        .update({
+          name: document.getElementById('editName').value,
+          company: document.getElementById('editCompany').value,
+          status: document.getElementById('editStatus').value,
+          notes: document.getElementById('editNotes').value,
+          last_updated: new Date().toISOString()
+        })
         .eq('id', currentEditId);
 
       if (error) throw error;
 
-      showMessage('Submission updated', 'success');
-      document.getElementById('editModal').classList.remove('active');
+      closeModal();
       loadSubmissions();
     } catch (err) {
-      showMessage('Error saving: ' + err.message, 'error');
-    }
-  });
-
-  // Cancel edit
-  document.getElementById('cancelBtn').addEventListener('click', () => {
-    document.getElementById('editModal').classList.remove('active');
-  });
-
-  // Update stats
-  function updateStats() {
-    document.getElementById('statTotal').textContent = allSubmissions.length;
-    document.getElementById('statNew').textContent = allSubmissions.filter(s => s.status === 'new').length;
-    document.getElementById('statContacted').textContent = allSubmissions.filter(s => s.status === 'contacted').length;
-    document.getElementById('statScheduled').textContent = allSubmissions.filter(s => s.status === 'scheduled').length;
-    document.getElementById('statEngaged').textContent = allSubmissions.filter(s => s.status === 'engaged').length;
-  }
-
-  // Show message
-  function showMessage(msg, type) {
-    const container = document.getElementById('messageContainer');
-    container.innerHTML = `<div class="message ${type}">${msg}</div>`;
-    setTimeout(() => container.innerHTML = '', 4000);
-  }
-
-  // Filter and search listeners
-  document.getElementById('statusFilter').addEventListener('change', renderTable);
-  document.getElementById('categoryFilter').addEventListener('change', renderTable);
-  document.getElementById('searchInput').addEventListener('input', renderTable);
-
-  // Logout
-  document.getElementById('logoutBtn').addEventListener('click', async () => {
-    const client = initSupabase();
-    if (client) {
-      await client.auth.signOut();
-    }
-    window.location.href = '/';
-  });
-
-  // Real-time updates
-  function setupRealtimeUpdates() {
-    const client = initSupabase();
-    if (client) {
-      client
-        .channel('diagnostic_submissions')
-        .on(
-          'postgres_changes',
-          {
-            event: '*',
-            schema: 'public',
-            table: 'diagnostic_submissions'
-          },
-          (payload) => {
-            console.log('Update:', payload);
-            loadSubmissions();
-          }
-        )
-        .subscribe();
+      alert('Error: ' + err.message);
     }
   }
 
-  // Load on page load
-  window.addEventListener('load', () => {
-    initSupabase();
-    loadSubmissions();
-    setupRealtimeUpdates();
-  });
+  window.addEventListener('load', loadSubmissions);
 </script>
 
 </body>
