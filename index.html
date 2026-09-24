@@ -1,38 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
+<title>Diagnostic Submissions | ZCL</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Diagnostic Submissions | Zero Chaos Leadership</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
-  :root{--black:#0a0a08;--charcoal:#1c1c1a;--dark-mid:#2a2a27;--muted:#6b6b65;--faint:#9a9a92;--white:#f4f4ee;--amber:#c8832a;--red:#e05555;}
+  :root{--black:#0a0a08;--charcoal:#1c1c1a;--dark-mid:#2a2a27;--muted:#6b6b65;--faint:#9a9a92;--white:#f4f4ee;--amber:#c8832a;--red:#e05555;--green:#4caf7d;}
   body{font-family:'DM Sans',system-ui,sans-serif;background:var(--black);color:var(--white);line-height:1.6;}
   .hidden{display:none !important;}
-
-  /* LOGIN */
   #login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
   .login-box{width:100%;max-width:360px;border-top:2px solid var(--amber);border-bottom:2px solid var(--amber);padding:36px 0;}
   .login-box h1{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:2px;line-height:1;margin-bottom:6px;}
   .login-box p{color:var(--faint);font-size:14px;margin-bottom:28px;}
+  .or{display:flex;align-items:center;gap:12px;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;margin:18px 0;}
+  .or::before,.or::after{content:'';flex:1;height:1px;background:var(--dark-mid);}
   .login-error{color:var(--red);font-size:13px;min-height:20px;margin-top:12px;}
-
-  .dashboard{max-width:1400px;margin:0 auto;padding:40px 20px;}
+  .page{max-width:1400px;margin:0 auto;padding:40px 20px;}
   .header{margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--dark-mid);display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;}
   .header h1{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;line-height:1;}
-  .header-right{display:flex;gap:14px;align-items:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--faint);flex-wrap:wrap;}
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px;}
+  .header-right{display:flex;gap:10px;align-items:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--faint);flex-wrap:wrap;}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:28px;}
   .stat-card{background:var(--dark-mid);padding:18px 20px;border-left:3px solid var(--amber);}
   .stat-label{font-family:'DM Mono',monospace;font-size:12px;color:var(--faint);margin-bottom:6px;}
   .stat-number{font-family:'Bebas Neue',sans-serif;font-size:34px;line-height:1;}
   .filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
   .filter-btn{padding:8px 16px;background:var(--dark-mid);border:1px solid var(--muted);color:var(--white);cursor:pointer;font-family:'DM Mono',monospace;font-size:12px;}
   .filter-btn.active{background:var(--amber);color:#0a0a08;border-color:var(--amber);}
-  .filter-btn:focus-visible,.button:focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
+  button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
+  .button{padding:8px 16px;background:var(--amber);color:#0a0a08 !important;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;}
+  .button:hover{opacity:0.9;}
+  .button:disabled{opacity:0.5;cursor:default;}
+  .button.ghost{background:var(--charcoal);color:var(--white) !important;border:1px solid var(--muted);}
+  .button.danger{background:var(--red);color:var(--white) !important;}
+  .button.wide{width:100%;padding:12px;font-size:13px;}
+  .form-group{margin-bottom:16px;}
+  .form-group label{display:block;font-family:'DM Mono',monospace;font-size:12px;color:var(--faint);margin-bottom:6px;}
+  .form-group input,.form-group select,.form-group textarea{width:100%;padding:10px;background:var(--charcoal);border:1px solid var(--muted);color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;}
+  .form-group textarea{min-height:90px;resize:vertical;}
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--amber);}
+  .loading{text-align:center;padding:40px;color:var(--faint);font-family:'DM Mono',monospace;font-size:13px;}
+  .error{color:var(--red);}
+  .empty{text-align:center;padding:40px;color:var(--faint);}
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:100;align-items:center;justify-content:center;padding:20px;}
+  .modal.active{display:flex;}
+  .modal-content{background:var(--dark-mid);padding:32px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;}
+  .modal-content h3{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;margin-bottom:20px;}
+  .modal-buttons{display:flex;gap:12px;margin-top:24px;}
+  .modal-buttons button{flex:1;}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--charcoal);border:1px solid var(--amber);padding:12px 18px;font-family:'DM Mono',monospace;font-size:12px;opacity:0;transition:all .25s;z-index:200;max-width:90vw;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .toast.bad{border-color:var(--red);}
+  @media (prefers-reduced-motion:reduce){.toast{transition:none;}}
   .table-container{background:var(--dark-mid);overflow-x:auto;}
   table{width:100%;border-collapse:collapse;min-width:760px;}
   th{background:var(--charcoal);padding:12px;text-align:left;font-family:'DM Mono',monospace;font-size:11px;color:var(--faint);border-bottom:1px solid var(--muted);font-weight:500;}
@@ -40,53 +61,32 @@
   tr:hover td{background:rgba(200,131,42,0.05);}
   .status{font-family:'DM Mono',monospace;font-size:12px;}
   .status-new{color:var(--amber);}
-  .button{padding:8px 16px;background:var(--amber);color:#0a0a08 !important;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;}
-  .button:hover{opacity:0.9;}
-  .button:disabled{opacity:0.5;cursor:default;}
-  .button.cancel,.button.ghost{background:var(--charcoal);color:var(--white) !important;border:1px solid var(--muted);}
-  .button.wide{width:100%;padding:12px;font-size:13px;}
-  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:100;align-items:center;justify-content:center;padding:20px;}
-  .modal.active{display:flex;}
-  .modal-content{background:var(--dark-mid);padding:32px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;}
-  .modal-content h3{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;margin-bottom:20px;}
-  .form-group{margin-bottom:16px;}
-  .form-group label{display:block;font-family:'DM Mono',monospace;font-size:12px;color:var(--faint);margin-bottom:6px;}
-  .form-group input,.form-group select,.form-group textarea{width:100%;padding:10px;background:var(--charcoal);border:1px solid var(--muted);color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;}
-  .form-group textarea{min-height:90px;resize:vertical;}
-  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--amber);}
-  .modal-buttons{display:flex;gap:12px;margin-top:24px;}
-  .modal-buttons button{flex:1;}
-  .loading{text-align:center;padding:40px;color:var(--faint);font-family:'DM Mono',monospace;font-size:13px;}
-  .error{color:var(--red);}
-  .empty{text-align:center;padding:40px;color:var(--faint);}
-</style>
-</head>
-<body>
-
-<!-- LOGIN -->
+</style></head><body>
 <div id="login" class="hidden">
-  <form class="login-box" id="loginForm">
+  <div class="login-box">
     <h1>Zero Chaos Leadership</h1>
-    <p>Sign in to view diagnostic submissions.</p>
-    <div class="form-group"><label for="loginEmail">Email</label><input type="email" id="loginEmail" autocomplete="username" required></div>
-    <div class="form-group"><label for="loginPassword">Password</label><input type="password" id="loginPassword" autocomplete="current-password" required></div>
-    <button type="submit" class="button wide" id="loginBtn">Sign in</button>
+    <p>Sign in to continue.</p>
+    <button type="button" class="button wide" id="passkeyLoginBtn">Sign in with Face ID</button>
+    <div class="or">or use your password</div>
+    <form id="loginForm">
+      <div class="form-group"><label for="loginEmail">Email</label><input type="email" id="loginEmail" autocomplete="username webauthn" required></div>
+      <div class="form-group"><label for="loginPassword">Password</label><input type="password" id="loginPassword" autocomplete="current-password" required></div>
+      <button type="submit" class="button wide ghost" id="loginBtn">Sign in with password</button>
+    </form>
     <div class="login-error" id="loginError"></div>
-  </form>
+  </div>
 </div>
-
-<!-- DASHBOARD -->
-<div id="app" class="dashboard hidden">
+<div class="toast" id="toast"></div>
+<div id="app" class="page hidden">
   <div class="header">
     <h1>Diagnostic Submissions</h1>
     <div class="header-right">
-      <span id="whoami"></span>
-      <span id="lastLoaded"></span>
+      <span id="whoami"></span><span id="lastLoaded"></span>
       <button class="button ghost" id="refreshBtn">Refresh</button>
+      <button class="button ghost" id="addPasskeyBtn">Add Face ID</button>
       <button class="button ghost" id="signOutBtn">Sign out</button>
     </div>
   </div>
-
   <div class="stats">
     <div class="stat-card"><div class="stat-label">Total</div><div class="stat-number" id="totalCount">0</div></div>
     <div class="stat-card"><div class="stat-label">New</div><div class="stat-number" id="newCount">0</div></div>
@@ -94,7 +94,6 @@
     <div class="stat-card"><div class="stat-label">Scheduled</div><div class="stat-number" id="scheduledCount">0</div></div>
     <div class="stat-card"><div class="stat-label">Engaged</div><div class="stat-number" id="engagedCount">0</div></div>
   </div>
-
   <div class="filters" id="filters">
     <button class="filter-btn active" data-status="">All</button>
     <button class="filter-btn" data-status="new">New</button>
@@ -102,7 +101,6 @@
     <button class="filter-btn" data-status="scheduled">Scheduled</button>
     <button class="filter-btn" data-status="engaged">Engaged</button>
   </div>
-
   <div id="loading" class="loading">Loading submissions...</div>
   <div id="tableContainer" class="table-container" style="display:none;">
     <table>
@@ -111,7 +109,6 @@
     </table>
   </div>
 </div>
-
 <div id="editModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
   <div class="modal-content">
     <h3 id="editTitle">Edit submission</h3>
@@ -119,146 +116,109 @@
     <div class="form-group"><label for="editEmail">Email</label><input type="email" id="editEmail"></div>
     <div class="form-group"><label for="editCompany">Company</label><input type="text" id="editCompany"></div>
     <div class="form-group"><label for="editStatus">Status</label>
-      <select id="editStatus">
-        <option value="new">New</option><option value="contacted">Contacted</option>
-        <option value="scheduled">Scheduled</option><option value="engaged">Engaged</option>
-      </select>
-    </div>
+      <select id="editStatus"><option value="new">New</option><option value="contacted">Contacted</option><option value="scheduled">Scheduled</option><option value="engaged">Engaged</option></select></div>
     <div class="form-group"><label for="editNotes">Notes</label><textarea id="editNotes"></textarea></div>
-    <div class="modal-buttons">
-      <button class="button cancel" id="cancelBtn">Cancel</button>
-      <button class="button" id="saveBtn">Save changes</button>
-    </div>
+    <div class="modal-buttons"><button class="button ghost" id="cancelBtn">Cancel</button><button class="button" id="saveBtn">Save changes</button></div>
   </div>
 </div>
-
 <script>
   const SUPABASE_URL = 'https://qebtjrryudnifxalznxw.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFlYnRqcnJ5dWRuaWZ4YWx6bnh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMDk0MTQsImV4cCI6MjA5NTU4NTQxNH0.wH-z4vqdejwhYNBPCeFaqRI_N5zZ5u6MNL0CNw1TTb4';
-
-  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  let allSubmissions = [];
-  let currentFilter = '';
-  let currentEditId = null;
-
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: { experimental: { passkey: true } }
+  });
   const $ = id => document.getElementById(id);
 
   function esc(s) {
     if (s === null || s === undefined || s === '') return '—';
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
+  let toastTimer;
+  function toast(msg, bad) {
+    const t = $('toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : '');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.className = 'toast', 3200);
+  }
 
-  // ---------- AUTH ----------
-  function showLogin() { $('app').classList.add('hidden'); $('login').classList.remove('hidden'); $('loginEmail').focus(); }
+  function showLogin() { $('app').classList.add('hidden'); $('login').classList.remove('hidden'); }
   function showApp(user) {
     $('login').classList.add('hidden'); $('app').classList.remove('hidden');
-    $('whoami').textContent = user.email;
-    loadSubmissions();
+    $('whoami').textContent = user.email || '';
+    onSignedIn();
   }
 
   $('loginForm').addEventListener('submit', async e => {
     e.preventDefault();
-    const btn = $('loginBtn');
-    btn.disabled = true; btn.textContent = 'Signing in...'; $('loginError').textContent = '';
-    const { data, error } = await db.auth.signInWithPassword({
-      email: $('loginEmail').value.trim(),
-      password: $('loginPassword').value
-    });
-    btn.disabled = false; btn.textContent = 'Sign in';
+    const btn = $('loginBtn'); btn.disabled = true; btn.textContent = 'Signing in...'; $('loginError').textContent = '';
+    const { data, error } = await db.auth.signInWithPassword({ email: $('loginEmail').value.trim(), password: $('loginPassword').value });
+    btn.disabled = false; btn.textContent = 'Sign in with password';
     if (error) { $('loginError').textContent = 'Sign-in failed: ' + error.message; return; }
-    $('loginPassword').value = '';
-    showApp(data.user);
+    $('loginPassword').value = ''; showApp(data.user);
   });
 
-  $('signOutBtn').addEventListener('click', async () => {
-    await db.auth.signOut();
-    allSubmissions = [];
-    $('submissionsTable').innerHTML = '';
-    showLogin();
+  $('passkeyLoginBtn').addEventListener('click', async () => {
+    $('loginError').textContent = '';
+    try {
+      const { data, error } = await db.auth.signInWithPasskey();
+      if (error) throw error;
+      showApp(data.user || data.session.user);
+    } catch (err) {
+      $('loginError').textContent = 'Face ID sign-in did not work: ' + (err.message || err) + '. Use your password, then tap "Add Face ID" once signed in.';
+    }
   });
 
-  // Resume an existing session on page load
+  $('addPasskeyBtn').addEventListener('click', async () => {
+    try {
+      const { error } = await db.auth.registerPasskey();
+      if (error) throw error;
+      toast('Face ID added. Next time, tap "Sign in with Face ID".');
+    } catch (err) {
+      toast('Could not add Face ID: ' + (err.message || err), true);
+    }
+  });
+
+  $('signOutBtn').addEventListener('click', async () => { await db.auth.signOut(); location.reload(); });
+
   (async () => {
     const { data } = await db.auth.getSession();
     if (data.session) showApp(data.session.user); else showLogin();
   })();
-
-  // ---------- DATA ----------
+  let all = [], currentFilter = '', currentEditId = null;
+  function onSignedIn() { loadSubmissions(); }
   async function loadSubmissions() {
-    const loading = $('loading');
-    loading.style.display = 'block'; loading.textContent = 'Loading submissions...';
-    try {
-      const { data, error } = await db.from('diagnostic_submissions').select('*').order('created_at', { ascending: false });
-      if (error) throw error;
-      allSubmissions = data || [];
-      updateStats(); render();
-      loading.style.display = 'none';
-      $('tableContainer').style.display = 'block';
-      $('lastLoaded').textContent = 'Loaded ' + new Date().toLocaleTimeString();
-    } catch (err) {
-      loading.innerHTML = '<span class="error">Could not load submissions: ' + esc(err.message) + '</span>';
-      console.error(err);
-    }
+    const loading = $('loading'); loading.style.display = 'block'; loading.textContent = 'Loading submissions...';
+    const { data, error } = await db.from('diagnostic_submissions').select('*').order('created_at', { ascending: false });
+    if (error) { loading.innerHTML = '<span class="error">Could not load submissions: ' + esc(error.message) + '</span>'; return; }
+    all = data || []; updateStats(); render();
+    loading.style.display = 'none'; $('tableContainer').style.display = 'block';
+    $('lastLoaded').textContent = 'Loaded ' + new Date().toLocaleTimeString();
   }
   $('refreshBtn').addEventListener('click', loadSubmissions);
-
   function updateStats() {
-    const count = s => allSubmissions.filter(x => x.status === s).length;
-    $('totalCount').textContent = allSubmissions.length;
-    $('newCount').textContent = count('new');
-    $('contactedCount').textContent = count('contacted');
-    $('scheduledCount').textContent = count('scheduled');
-    $('engagedCount').textContent = count('engaged');
+    const c = s => all.filter(x => x.status === s).length;
+    $('totalCount').textContent = all.length; $('newCount').textContent = c('new'); $('contactedCount').textContent = c('contacted');
+    $('scheduledCount').textContent = c('scheduled'); $('engagedCount').textContent = c('engaged');
   }
-
   function render() {
-    const rows = currentFilter ? allSubmissions.filter(s => s.status === currentFilter) : allSubmissions;
-    const tbody = $('submissionsTable');
-    if (!rows.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">No submissions in this view.</td></tr>'; return; }
-    tbody.innerHTML = rows.map(s => `
-      <tr>
-        <td>${esc(s.name)}</td><td>${esc(s.email)}</td><td>${esc(s.company)}</td><td>${esc(s.category)}</td>
-        <td><span class="status status-${esc(s.status)}">${esc(s.status)}</span></td>
-        <td>${s.created_at ? new Date(s.created_at).toLocaleDateString() : '—'}</td>
-        <td><button class="button" data-edit="${esc(s.id)}">Edit</button></td>
-      </tr>`).join('');
+    const rows = currentFilter ? all.filter(s => s.status === currentFilter) : all;
+    $('submissionsTable').innerHTML = rows.length ? rows.map(s => `<tr><td>${esc(s.name)}</td><td>${esc(s.email)}</td><td>${esc(s.company)}</td><td>${esc(s.category)}</td><td><span class="status status-${esc(s.status)}">${esc(s.status)}</span></td><td>${s.created_at ? new Date(s.created_at).toLocaleDateString() : '—'}</td><td><button class="button" data-edit="${esc(s.id)}">Edit</button></td></tr>`).join('')
+      : '<tr><td colspan="7" class="empty">No submissions in this view.</td></tr>';
   }
-
-  $('filters').addEventListener('click', e => {
-    const btn = e.target.closest('.filter-btn'); if (!btn) return;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active'); currentFilter = btn.dataset.status; render();
-  });
-
-  $('submissionsTable').addEventListener('click', e => {
-    const btn = e.target.closest('[data-edit]'); if (!btn) return;
-    const s = allSubmissions.find(x => String(x.id) === btn.dataset.edit); if (!s) return;
-    currentEditId = s.id;
-    $('editName').value = s.name || ''; $('editEmail').value = s.email || '';
-    $('editCompany').value = s.company || ''; $('editStatus').value = s.status || 'new';
-    $('editNotes').value = s.notes || '';
-    $('editModal').classList.add('active'); $('editName').focus();
-  });
-
+  $('filters').addEventListener('click', e => { const b = e.target.closest('.filter-btn'); if (!b) return;
+    document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); currentFilter = b.dataset.status; render(); });
+  $('submissionsTable').addEventListener('click', e => { const b = e.target.closest('[data-edit]'); if (!b) return;
+    const s = all.find(x => String(x.id) === b.dataset.edit); if (!s) return; currentEditId = s.id;
+    $('editName').value = s.name || ''; $('editEmail').value = s.email || ''; $('editCompany').value = s.company || '';
+    $('editStatus').value = s.status || 'new'; $('editNotes').value = s.notes || ''; $('editModal').classList.add('active'); });
   function closeModal() { $('editModal').classList.remove('active'); currentEditId = null; }
   $('cancelBtn').addEventListener('click', closeModal);
   $('editModal').addEventListener('click', e => { if (e.target.id === 'editModal') closeModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
   $('saveBtn').addEventListener('click', async () => {
     const btn = $('saveBtn'); btn.disabled = true; btn.textContent = 'Saving...';
-    try {
-      const { data, error } = await db.from('diagnostic_submissions').update({
-        name: $('editName').value.trim(), email: $('editEmail').value.trim(),
-        company: $('editCompany').value.trim(), status: $('editStatus').value,
-        notes: $('editNotes').value.trim(), last_updated: new Date().toISOString()
-      }).eq('id', currentEditId).select();
-      if (error) throw error;
-      if (!data || !data.length) throw new Error('No row was updated. Check that you are signed in with the admin account.');
-      closeModal(); await loadSubmissions();
-    } catch (err) { alert('Save failed: ' + err.message); }
-    finally { btn.disabled = false; btn.textContent = 'Save changes'; }
+    const { data, error } = await db.from('diagnostic_submissions').update({ name: $('editName').value.trim(), email: $('editEmail').value.trim(),
+      company: $('editCompany').value.trim(), status: $('editStatus').value, notes: $('editNotes').value.trim(), last_updated: new Date().toISOString() }).eq('id', currentEditId).select();
+    btn.disabled = false; btn.textContent = 'Save changes';
+    if (error || !data || !data.length) { toast('Save failed: ' + (error ? error.message : 'no row updated'), true); return; }
+    closeModal(); toast('Saved'); loadSubmissions();
   });
-</script>
-</body>
-</html>
+</script></body></html>
