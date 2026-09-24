@@ -61,6 +61,8 @@
   tr:hover td{background:rgba(200,131,42,0.05);}
   .status{font-family:'DM Mono',monospace;font-size:12px;}
   .status-new{color:var(--amber);}
+  .sheets-badge{font-family:'DM Mono',monospace;font-size:11px;padding:4px 10px;border:1px solid var(--green);color:var(--green);letter-spacing:1px;}
+  .sheets-badge.off{border-color:var(--muted);color:var(--muted);}
 </style></head><body>
 <div id="login" class="hidden">
   <div class="login-box">
@@ -82,6 +84,8 @@
     <h1>Diagnostic Submissions</h1>
     <div class="header-right">
       <span id="whoami"></span><span id="lastLoaded"></span>
+      <span class="sheets-badge" id="sheetsBadge">SHEETS ON</span>
+      <button class="button ghost" id="exportSheetsBtn">Export to Sheets</button>
       <button class="button ghost" id="refreshBtn">Refresh</button>
       <button class="button ghost" id="addPasskeyBtn">Add Face ID</button>
       <button class="button ghost" id="signOutBtn">Sign out</button>
@@ -124,6 +128,7 @@
 <script>
   const SUPABASE_URL = 'https://qebtjrryudnifxalznxw.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFlYnRqcnJ5dWRuaWZ4YWx6bnh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMDk0MTQsImV4cCI6MjA5NTU4NTQxNH0.wH-z4vqdejwhYNBPCeFaqRI_N5zZ5u6MNL0CNw1TTb4';
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzN-IHB6IlbpR1uvo2brXSD1rC790JyPOqXV8PYRH9ExYMx3LhessF8lg1YoU_zKxM/exec';
   const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
     auth: { experimental: { passkey: true } }
   });
@@ -182,6 +187,28 @@
     const { data } = await db.auth.getSession();
     if (data.session) showApp(data.session.user); else showLogin();
   })();
+  // Google Sheets backup (ZCL Diagnostics sheet). Timestamp = when the lead submitted.
+  async function syncToSheets(s){
+    if (!SHEETS_URL) return;
+    try {
+      const payload = {
+        timestamp: s.created_at || new Date().toISOString(),
+        name: s.name || '', email: s.email || '', company: s.company || '',
+        category: s.category || '', status: s.status || '', notes: s.notes || '',
+        created_at: s.created_at || ''
+      };
+      await fetch(SHEETS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+    } catch(e){ console.warn('Sheets sync failed', e); }
+  }
+  async function exportToSheets(){
+    if (!SHEETS_URL) { toast('Sheets backup is not configured', true); return; }
+    if (!all.length) { toast('No submissions to export', true); return; }
+    toast('Exporting ' + all.length + ' to Sheets...');
+    for (const s of all){ await syncToSheets(s); await new Promise(r => setTimeout(r, 400)); }
+    toast('Exported ' + all.length + ' to Sheets');
+  }
+  $('exportSheetsBtn').addEventListener('click', exportToSheets);
+  (function(){ const b = $('sheetsBadge'); const on = !!SHEETS_URL; b.textContent = on ? 'SHEETS ON' : 'SHEETS OFF'; if (!on) b.classList.add('off'); })();
   let all = [], currentFilter = '', currentEditId = null;
   function onSignedIn() { loadSubmissions(); }
   async function loadSubmissions() {
@@ -219,6 +246,6 @@
       company: $('editCompany').value.trim(), status: $('editStatus').value, notes: $('editNotes').value.trim(), last_updated: new Date().toISOString() }).eq('id', currentEditId).select();
     btn.disabled = false; btn.textContent = 'Save changes';
     if (error || !data || !data.length) { toast('Save failed: ' + (error ? error.message : 'no row updated'), true); return; }
-    closeModal(); toast('Saved'); loadSubmissions();
+    closeModal(); toast('Saved'); syncToSheets(data[0]); loadSubmissions();
   });
 </script></body></html>
